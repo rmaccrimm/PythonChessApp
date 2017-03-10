@@ -4,39 +4,39 @@
 
 from tkinter import *
 from PIL import Image, ImageTk
+import itertools
 
 class ChessGui():
     
     def __init__(self, root):
-        self.root = root
         self.chessGrid = {}
-        self.chessGrid['a1'] = Canvas(root, width=85, height=85,
-                                      background='black')
-        self.chessGrid['a1'].grid(row=0, column=0)
-        self.chessGrid['a2'] = Canvas(root, width=85, height=85,
-                                      background='black')
-        self.chessGrid['a2'].grid(row=0, column=1)
+        self.root = root
+        self.squareLength = 60
+        colorIter = itertools.cycle(['black', 'white'])
         
-        blackIcon = Image.open('/home/rmaccrimmon/Pictures/arch start buttons/'
-                          + 'start-here monochrome strong.png')
-        self.blackImg = ImageTk.PhotoImage(blackIcon)
+        for i in range(8):
+            for j in range(8):
+                key = chr(i+97) + str(j+1)
+                self.chessGrid[key] = Canvas(self.root, width=self.squareLength,
+                    height=self.squareLength, background=next(colorIter))
+                self.chessGrid[key].grid(row=8-i, column=j)
+            next(colorIter)
+        keys = []
+        for key in self.chessGrid:
+            keys.append(key)
+        self.keys = itertools.cycle(keys)
+        self.image = Image.open('resources/bPawn.png')                        
+        self.scaledImage = ImageTk.PhotoImage(
+            self.image.resize((50,50), Image.ANTIALIAS))
+        self.chessGrid['a1'].create_image(self.squareLength/2, 
+            self.squareLength/2, image=self.scaledImage)
+        self.position = next(self.keys)
         
-        whiteIcon = Image.open('/home/rmaccrimmon/Pictures/arch start buttons/'
-                          + 'start-here monochrome light.png')
-        self.whiteImg = ImageTk.PhotoImage(whiteIcon)
-        
-        #self.chessGrid['a1'].create_image(40, 40, image=self.blackImg)
-        self.chessGrid['a2'].create_image(42.5, 42.5, image=self.whiteImg)
-        
-        self.position = 'a2'
+        self.chessGrid['a1'].bind('<Button-1>', self.moveNext)
 
-    def swap(self):
+    def moveNext(self, event):
         self.chessGrid[self.position].delete('all')
+        self.position = next(self.keys)
         
-        if self.position == 'a1':
-            self.position = 'a2'
-        elif self.position == 'a2':
-            self.position = 'a1'
-        
-        self.chessGrid[self.position].create_image(42.5, 42.5, 
-                                                   image=self.whiteImg)
+        self.chessGrid[self.position].create_image(self.squareLength/2, 
+            self.squareLength/2, image=self.scaledImage)

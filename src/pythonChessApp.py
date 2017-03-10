@@ -8,7 +8,9 @@ from ChessGui import *
     
 if __name__ == "__main__":
     root = Tk()
-    gui = ChessGui(root)
-    swapButton = ttk.Button(root, text='swap', command = gui.swap)
-    swapButton.grid(row=1, column=0)
+    root.title('Chess')
+    frame = Frame(root)
+    gui = ChessGui(frame)
+    frame.pack()
+
     root.mainloop()
