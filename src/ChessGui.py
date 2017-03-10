@@ -4,28 +4,57 @@
 
 from tkinter import *
 import itertools
-from ChessCell import *
+from PIL import Image, ImageTk
 
 class ChessGui():
     
-    def __init__(self, root):
-        self.chessGrid = {}
+    def __init__(self, root, squareSize=60):
+        self.board = {}
         self.root = root
-        self.squareLength = 60
-        self.currentPiece = None
+        self.squareSize = 60
+        self.center = squareSize/2
+        self.imageSize = 50
+        self.listeners = []
+        self.images = {}
         colorIter = itertools.cycle(['black', 'white'])
-        
+
         for i in range(8):
             for j in range(8):
                 key = chr(i+97) + str(j+1)
-                self.chessGrid[key] = ChessCell(self.root, row=8-i, column=j,
-                                                color=next(colorIter))
-                self.chessGrid[key].canvas.bind('<Button-1>', 
-                    lambda event, position=key: self.movePiece(event, position))
+                self.board[key] = Canvas(root, width = self.squareSize, 
+                    height=self.squareSize, background=next(colorIter))
+                self.board[key].grid(row=8-i, column=j)
+                self.board[key].bind('<Button-1>', 
+                    lambda event, position=key: self.notify(event, position))
             next(colorIter)
             
-    def initPieces(self):
-        self.chessGrid['a1'].add()
-        
-    def movePiece(self, event, position):
-        print(position)
+    def drawPiece(self, position, image):
+        try:
+            if self.board[position].find_all():
+                raise RuntimeError('Cell already occupied')
+            else:
+                scaledImage = ImageTk.PhotoImage(image.resize(
+                    (self.imageSize, self.imageSize), Image.ANTIALIAS))
+                self.images[position] = scaledImage
+                self.board[position].create_image(self.center, self.center,
+                    image=scaledImage)
+        except TypeError:
+            print('Tried to draw in non-existent cell')
+    
+    def removePiece(self, position):
+        try:
+            self.board[position].delete('all')
+            del self.images[position]
+        except TypeError:
+            print('Tried to remove from non-existent cell')
+            
+    def notify(self, event, position):
+        for listener in self.listeners:
+            try:
+                listener.notify(position)
+            except: 
+                pass
+    
+    def addListener(self, listener):
+        self.listeners.append(listener)
+    
