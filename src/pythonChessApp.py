@@ -6,6 +6,7 @@ from tkinter import Tk
 from tkinter import ttk
 from ChessGui import *
 from ChessController import *
+from ChessPiece import *
 
 class obs():
     def __init__(self):
@@ -20,11 +21,6 @@ if __name__ == "__main__":
     frame = Frame(root)
     gui = ChessGui(frame)
     controller = ChessController(gui)
-
-    image = Image.open('resources/bPawn.png')
-    for i in range(8):
-        gui.drawPiece('b'+str(1+i), image)
-
+    controller.initPieces()
     frame.pack()
-
     root.mainloop()

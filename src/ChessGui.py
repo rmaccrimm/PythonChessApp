@@ -16,14 +16,14 @@ class ChessGui():
         self.imageSize = 50
         self.listeners = []
         self.images = {}
-        colorIter = itertools.cycle(['black', 'white'])
+        colorIter = itertools.cycle(['grey', 'white'])
 
         for i in range(8):
             for j in range(8):
                 key = chr(i+97) + str(j+1)
                 self.board[key] = Canvas(root, width = self.squareSize, 
                     height=self.squareSize, background=next(colorIter))
-                self.board[key].grid(row=8-i, column=j)
+                self.board[key].grid(row=8-j, column=i)
                 self.board[key].bind('<Button-1>', 
                     lambda event, position=key: self.notify(event, position))
             next(colorIter)
@@ -38,15 +38,16 @@ class ChessGui():
                 self.images[position] = scaledImage
                 self.board[position].create_image(self.center, self.center,
                     image=scaledImage)
-        except TypeError:
+        except KeyError:
             print('Tried to draw in non-existent cell')
     
     def removePiece(self, position):
         try:
-            self.board[position].delete('all')
-            del self.images[position]
-        except TypeError:
-            print('Tried to remove from non-existent cell')
+            if self.board[position].find_all():
+                self.board[position].delete('all')
+                del self.images[position]
+        except KeyError:
+            print('No Piece to remove')
             
     def notify(self, event, position):
         for listener in self.listeners:
