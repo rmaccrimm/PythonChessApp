@@ -6,7 +6,10 @@ from tkinter import *
 import itertools
 from PIL import Image, ImageTk
 
+
 class ChessGui():
+    """Displays chess board and pieces.
+    """
     
     def __init__(self, root, squareSize=60):
         self.board = {}
@@ -29,6 +32,9 @@ class ChessGui():
             next(colorIter)
             
     def drawPiece(self, position, image):
+        """Draw the image at the given grid position, specified by chess
+        algebraic notation.
+        """
         try:
             if self.board[position].find_all():
                 raise RuntimeError('Cell already occupied')
@@ -42,6 +48,8 @@ class ChessGui():
             print('Tried to draw in non-existent cell')
     
     def removePiece(self, position):
+        """Remove the piece at the given position.
+        """
         try:
             if self.board[position].find_all():
                 self.board[position].delete('all')
@@ -50,6 +58,8 @@ class ChessGui():
             print('No Piece to remove')
             
     def notify(self, event, position):
+        """Pass the name of the cell clicked to all listeners. 
+        """
         for listener in self.listeners:
             try:
                 listener.notify(position)
@@ -57,5 +67,7 @@ class ChessGui():
                 pass
     
     def addListener(self, listener):
+        """Register a listener to recieve input when a cell is clicked. 
+        """
         self.listeners.append(listener)
     

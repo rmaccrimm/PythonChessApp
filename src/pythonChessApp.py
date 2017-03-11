@@ -3,17 +3,9 @@
 # and open the template in the editor.
 
 from tkinter import Tk
-from tkinter import ttk
 from ChessGui import *
 from ChessController import *
 from ChessPiece import *
-
-class obs():
-    def __init__(self):
-        pass
-    
-    def notify(self, string):
-        print(string)
         
 if __name__ == "__main__":
     root = Tk()

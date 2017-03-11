@@ -4,55 +4,78 @@
 
 from PIL import Image
 
+
 class ChessPiece():
+    """Stores an image and name for each type of chess piece. Later on will 
+    handle move generation to check if moves are valid.
+    """
+    
+    def __init__(self, color):
+        self.color = color.lower()
+        if self.color == 'black':
+            self.image = self.bImage
+        elif self.color == 'white':
+            self.image = self.wImage
+        else:
+            raise ValueError('Invalid piece color')
     
     def movePossible(position):
+        """Check if move is valid for the piece. To be implemented in the 
+        future.
+        """
         return True
 
-class BlackPawn(ChessPiece):
-    image = Image.open('resources/bPawn.png')
-    name = 'Black Pawn'
+
+class Pawn(ChessPiece):
+    bImage = Image.open('resources/bPawn.png')
+    wImage = Image.open('resources/wPawn.png')
+    name = 'pawn'
+    
+    def __init__(self, color='black'):
+        ChessPiece.__init__(self, color)
+
+
+class Knight(ChessPiece):
+    bImage = Image.open('resources/bKnight.png')
+    wImage = Image.open('resources/wKnight.png')
+    name = 'knight'
+    
+    def __init__(self, color='black'):
+        ChessPiece.__init__(self, color)
   
-class WhitePawn(ChessPiece):
-    image = Image.open('resources/wPawn.png')
-    name = 'White Pawn'
+        
+class Rook(ChessPiece):
+    bImage = Image.open('resources/bRook.png')
+    wImage = Image.open('resources/wRook.png')
+    name = 'rook'
     
-class BlackKnight(ChessPiece):
-    image = Image.open('resources/bKnight.png')
-    name = 'Black Knight'
+    def __init__(self, color='black'):
+        ChessPiece.__init__(self, color)
+  
+        
+class Bishop(ChessPiece):
+    bImage = Image.open('resources/bBishop.png')
+    wImage = Image.open('resources/wBishop.png')
+    name = 'bishop'
     
-class WhiteKnight(ChessPiece):
-    image = Image.open('resources/wKnight.png')
-    name = 'White Knight'
+    def __init__(self, color='black'):
+        ChessPiece.__init__(self, color)
+ 
+        
+class King(ChessPiece):
+    bImage = Image.open('resources/bKing.png')
+    wImage = Image.open('resources/wKing.png')
+    name = 'king'
     
-class BlackKing(ChessPiece):
-    image = Image.open('resources/bKing.png')
-    name = 'Black King'
+    def __init__(self, color='black'):
+        ChessPiece.__init__(self, color)        
+  
+        
+class Queen(ChessPiece):
+    bImage = Image.open('resources/bQueen.png')
+    wImage = Image.open('resources/wQueen.png')
+    name = 'queen'
     
-class WhiteKing(ChessPiece):
-    image = Image.open('resources/wKing.png')
-    name = 'White King'
+    def __init__(self, color='black'):
+        ChessPiece.__init__(self, color)        
 
-class BlackQueen(ChessPiece):
-    image = Image.open('resources/bQueen.png')
-    name = 'Black Queen'
-
-class WhiteQueen(ChessPiece):
-    image = Image.open('resources/wQueen.png')
-    name = 'White Queen'
-    
-class BlackRook(ChessPiece):
-    image = Image.open('resources/bRook.png')
-    name = 'Black Rook'
-    
-class WhiteRook(ChessPiece):
-    image = Image.open('resources/wRook.png')
-    name = 'White Rook'
-    
-class BlackBishop(ChessPiece):
-    image = Image.open('resources/bBishop.png')
-    name = 'Black Rook'
-    
-class WhiteBishop(ChessPiece):
-    image = Image.open('resources/wBishop.png')
-    name = 'White Bishop'
