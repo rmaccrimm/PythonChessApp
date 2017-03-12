@@ -63,6 +63,8 @@ class ChessGui(object):
             raise RuntimeError('No piece to remove')
             
     def clearAll(self):
+        """Removes all pieces that have been drawn
+        """
         for position in list(self.images):
             self.removePiece(position)
             
@@ -79,7 +81,8 @@ class ChessGui(object):
         if callable(notify):
             params = inspect.getfullargspec(listener.notify).args
             if(len(params) != 2):
-                raise RuntimeError('Listener must have only 2 parameters')
+                raise RuntimeError('Listener notify method must have only 2'
+                                   +'parameters')
             else:
                 self.listeners.append(listener)
         else:

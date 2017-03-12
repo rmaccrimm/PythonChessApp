@@ -16,13 +16,4 @@ if __name__ == "__main__":
     controller = ChessController(gui)
     controller.initPieces()
     frame.pack()
-    root.withdraw()
-    
-    root = Tk()
-    root.title('Chess')
-    frame = Frame(root)
-    gui = ChessGui(frame)
-    controller = ChessController(gui)
-    controller.initPieces()
-    frame.pack()
     root.mainloop()
