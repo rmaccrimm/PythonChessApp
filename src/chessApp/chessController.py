@@ -40,14 +40,8 @@ class ChessController(object):
         for i in range(8):
             self.addPiece(chr(97+i)+str(2), Pawn('white'))
             self.addPiece(chr(97+i)+str(7), Pawn('black'))
-            
-    def notify(self, position):
-        """Recieves the name of the cell clicked in the GUI. Redirects input 
-        to movePieces function
-        """
-        self.movePieces(position)
     
-    def movePieces(self, position):
+    def handleClick(self, position):
         """Defines the behaviour for each input. First input stores a piece to
         be moved. Second input
             a) moves the piece if the cell is empty or contains opposite color.
@@ -75,11 +69,8 @@ class ChessController(object):
     def setCurrent(self, position):
         """Stores the selected piece and position to be moved on the next input.
         """
-        try:
-            self.currentPiece = self.chessGrid[position]
-            self.currentCell = position
-        except KeyError:
-            print('Position does not exist')
+        self.currentPiece = self.chessGrid[position]
+        self.currentCell = position
             
     def addPiece(self, position, piece):
         """Adds a piece at the given position. Cell must be empty before adding

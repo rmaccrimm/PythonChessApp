@@ -30,7 +30,7 @@ class  ChessGui_TestCase(unittest.TestCase):
         position = 'a9'
         self.assertRaises(KeyError, self.gui.drawPiece, position, self.image)
         
-    def test_drawPieceNumberOfImages(self):
+    def test_drawPieceCorrectNumberOfImages(self):
         self.gui.drawPiece('a1', self.image)
         self.gui.drawPiece('a2', self.image)
         self.assertEqual(len(self.gui.images), 2)
@@ -44,7 +44,7 @@ class  ChessGui_TestCase(unittest.TestCase):
     def test_removeNoPiece(self):
         self.assertRaises(RuntimeError, self.gui.removePiece, 'a1')
     
-    def test_removeNumberOfImages(self):
+    def test_removeCorrectNumberOfImages(self):
         self.gui.drawPiece('a1', self.image)
         self.gui.drawPiece('a2', self.image)
         self.gui.removePiece('a1')
@@ -65,33 +65,33 @@ class  ChessGui_TestCase(unittest.TestCase):
         self.gui.removePiece('e6')
         self.assertFalse(self.gui.cellOccupied('e6'))
         
-    def test_addListenerNoNotifyAttribute(self):
+    def test_addListenerNoHandleClickAttribute(self):
         listener = 10
         self.assertRaises(RuntimeError, self.gui.addListener, listener)
         
-    def test_addListenerNotifyNotMethod(self):
+    def test_addListenerHandleClickNotMethod(self):
         class tempClass(object):
             def __init__(self):
-                self.notify = None
+                self.handleClick = None
         listener = tempClass()
         self.assertRaises(RuntimeError, self.gui.addListener, listener)
         
     def test_addListenerWrongArguments(self):
         class tempClass(object):
-            def notify(self):
+            def handleClick(self):
                 pass
         listener = tempClass()
         self.assertRaises(RuntimeError, self.gui.addListener, listener)
         
-    def test_notify(self):
+    def test_handleClick(self):
         class tempClass(object):
             def __init__(self):
                 self.notified = False
-            def notify(self, arg):
+            def handleClick(self, arg):
                 self.notified = True
         listener = tempClass()
         self.gui.addListener(listener)
-        self.gui.notify('event', 'arg')
+        self.gui.handleClick('event', 'arg')
         self.assertTrue(listener.notified)
         
         

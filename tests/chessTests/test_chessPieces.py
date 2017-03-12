@@ -10,6 +10,9 @@ from chessApp.chessPieces import ChessPiece, Pawn
 class  ChessPiece_TestCase(unittest.TestCase):
     """Class for testing just the chess piece base class methods
     """
+    
+    def test_initBaseClassNotImplemented(self):
+        self.assertRaises(NotImplementedError, ChessPiece, 'black')
         
     def test_initCapitalColor(self):
         piece = Pawn('BlaCK')
@@ -17,3 +20,7 @@ class  ChessPiece_TestCase(unittest.TestCase):
         
     def test_initInvalidColor(self):
         self.assertRaises(ValueError, Pawn, 'arg')
+
+    def test_setImagePropertyException(self):
+        piece = Pawn('Black')
+        self.assertRaises(AttributeError, setattr, piece, 'image', 0)

@@ -29,7 +29,8 @@ class ChessGui(object):
                     height=self.squareSize, background=next(colorIter))
                 self.board[key].grid(row=8-j, column=i)
                 self.board[key].bind('<Button-1>', 
-                    lambda event, position=key: self.notify(event, position))
+                    lambda event, position=key: 
+                    self.handleClick(event, position))
             next(colorIter)
             
     def cellOccupied(self, position):
@@ -68,18 +69,18 @@ class ChessGui(object):
         for position in list(self.images):
             self.removePiece(position)
             
-    def notify(self, event, position):
+    def handleClick(self, event, position):
         """Pass the name of the cell clicked to all listeners. 
         """
         for listener in self.listeners:
-            listener.notify(position)
+            listener.handleClick(position)
     
     def addListener(self, listener):
         """Register a listener to recieve input when a cell is clicked. 
         """
-        notify = getattr(listener, 'notify', None)
-        if callable(notify):
-            params = inspect.getfullargspec(listener.notify).args
+        handleClick = getattr(listener, 'handleClick', None)
+        if callable(handleClick):
+            params = inspect.getfullargspec(listener.handleClick).args
             if(len(params) != 2):
                 raise RuntimeError('Listener notify method must have only 2'
                                    +'parameters')
