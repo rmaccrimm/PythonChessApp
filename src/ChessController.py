@@ -6,7 +6,7 @@ from ChessPiece import *
 import itertools
 
 
-class ChessController():
+class ChessController(object):
     """Handles chess game logic and updates ChessGui
     """
     
