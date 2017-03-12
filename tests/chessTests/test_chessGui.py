@@ -5,15 +5,17 @@
 import unittest
 from PIL import Image
 from tkinter import Tk
-from ChessGui import *
+from chessApp.chessGui import ChessGui
+from pkg_resources import resource_filename
 
-class  TestChessGui(unittest.TestCase):
+class  ChessGui_TestCase(unittest.TestCase):
 
     @classmethod
     def setUpClass(self):
         self.root = Tk()
         self.gui = ChessGui(self.root)
-        self.image = Image.open('../src/resources/bPawn.png')
+        self.image = Image.open(resource_filename('chessApp.resources.images',
+                                'bPawn.png'))
         
     def tearDown(self):
         self.gui.clearAll()

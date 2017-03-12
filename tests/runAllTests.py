@@ -3,11 +3,11 @@
 # and open the template in the editor.
 
 import unittest
-from TestChessGui import *
-from TestChessPiece import *
+from chessTests.test_chessGui import ChessGui_TestCase
+from chessTests.test_chessPieces import ChessPiece_TestCase
 
 if __name__ == '__main__':
-    testCases = [TestChessGui]
+    testCases = [ChessGui_TestCase, ChessPiece_TestCase]
     testLoader = unittest.TestLoader()
     suiteList = []
     for test in testCases:

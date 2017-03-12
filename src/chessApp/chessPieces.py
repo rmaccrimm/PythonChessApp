@@ -3,6 +3,8 @@
 # and open the template in the editor.
 
 from PIL import Image
+from chessApp.resources.images import *
+from pkg_resources import resource_filename
 
 
 class ChessPiece(object):
@@ -52,8 +54,10 @@ class ChessPiece(object):
 
 
 class Pawn(ChessPiece):
-    _bImage = Image.open('resources/bPawn.png')
-    _wImage = Image.open('resources/wPawn.png')
+    _bImage = Image.open(resource_filename('chessApp.resources.images',
+                         'bPawn.png'))
+    _wImage = Image.open(resource_filename('chessApp.resources.images',
+                         'wPawn.png'))
     _name = 'pawn'
     
     def __init__(self, color='black'):
@@ -61,8 +65,10 @@ class Pawn(ChessPiece):
 
 
 class Knight(ChessPiece):
-    _bImage = Image.open('resources/bKnight.png')
-    _wImage = Image.open('resources/wKnight.png')
+    _bImage = Image.open(resource_filename('chessApp.resources.images',
+                         'bKnight.png'))
+    _wImage = Image.open(resource_filename('chessApp.resources.images',
+                         'wKnight.png'))
     _name = 'knight'
     
     def __init__(self, color='black'):
@@ -70,8 +76,10 @@ class Knight(ChessPiece):
   
         
 class Rook(ChessPiece):
-    _bImage = Image.open('resources/bRook.png')
-    _wImage = Image.open('resources/wRook.png')
+    _bImage = Image.open(resource_filename('chessApp.resources.images',
+                         'bRook.png'))
+    _wImage = Image.open(resource_filename('chessApp.resources.images',
+                         'wRook.png'))
     _name = 'rook'
     
     def __init__(self, color='black'):
@@ -79,8 +87,10 @@ class Rook(ChessPiece):
   
         
 class Bishop(ChessPiece):
-    _bImage = Image.open('resources/bBishop.png')
-    _wImage = Image.open('resources/wBishop.png')
+    _bImage = Image.open(resource_filename('chessApp.resources.images',
+                         'bBishop.png'))
+    _wImage = Image.open(resource_filename('chessApp.resources.images',
+                         'wBishop.png'))
     _name = 'bishop'
     
     def __init__(self, color='black'):
@@ -88,8 +98,10 @@ class Bishop(ChessPiece):
  
         
 class King(ChessPiece):
-    _bImage = Image.open('resources/bKing.png')
-    _wImage = Image.open('resources/wKing.png')
+    _bImage = Image.open(resource_filename('chessApp.resources.images',
+                         'bKing.png'))
+    _wImage = Image.open(resource_filename('chessApp.resources.images',
+                         'wKing.png'))
     _name = 'king'
     
     def __init__(self, color='black'):
@@ -97,8 +109,10 @@ class King(ChessPiece):
   
         
 class Queen(ChessPiece):
-    _bImage = Image.open('resources/bQueen.png')
-    _wImage = Image.open('resources/wQueen.png')
+    _bImage = Image.open(resource_filename('chessApp.resources.images',
+                         'bQueen.png'))
+    _wImage = Image.open(resource_filename('chessApp.resources.images',
+                         'wQueen.png'))
     _name = 'queen'
     
     def __init__(self, color='black'):

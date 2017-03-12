@@ -3,10 +3,11 @@
 # and open the template in the editor.
 
 from tkinter import Tk
-from ChessGui import *
-from ChessController import *
-from ChessPiece import *
-        
+from chessApp.chessGui import *
+from chessApp.chessController import *
+from chessApp.chessPieces import *
+
+
         
 if __name__ == "__main__":
     root = Tk()
