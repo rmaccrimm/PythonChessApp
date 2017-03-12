@@ -20,6 +20,13 @@ class ChessController(object):
             for j in range(8):
                 key = chr(i+97) + str(j+1)
                 self.chessGrid[key] = None
+
+    def getPositions(self):
+        """Returns a list containing the positions of every piece on the board
+        """
+        positions = [pos for pos in self.chessGrid 
+                     if self.chessGrid[pos] != None]
+        return positions
     
     def initPieces(self):
         """Places the initial pieces on the board.
@@ -45,53 +52,60 @@ class ChessController(object):
         """Defines the behaviour for each input. First input stores a piece to
         be moved. Second input
             a) moves the piece if the cell is empty or contains opposite color.
-            b) selects a new piece to move, if same color as stored piece.
-            c) cancels the move, if same piece.
+            b) stores a new piece to move if same color as current stored piece.
+            c) cancels the move if same piece.
         """
         print(position)
         if self.currentPiece == None:
-            self.setCurrent(position)
-        else:
-            if position != self.currentCell:
-                piece = self.chessGrid[position]
-                if piece == None or piece.color != self.currentPiece.color:
-                    self.removePiece(position)  
-                    self.addPiece(position, self.currentPiece)
-                    self.removePiece(self.currentCell)
-                    self.currentPiece = None
-                    self.currentCell = None
-                else:
-                    self.setCurrent(position)
+            if self.chessGrid[position] != None:
+                self.setCurrent(position)
+        elif position != self.currentCell:
+            piece = self.chessGrid[position]
+            if piece == None:
+                self.addPiece(position, self.currentPiece)
+                self.removePiece(self.currentCell)
+                self.setCurrent(None)
+            elif piece.color != self.currentPiece.color:
+                self.removePiece(position)  
+                self.addPiece(position, self.currentPiece)
+                self.removePiece(self.currentCell)
+                self.setCurrent(None)
             else:
-                self.currentPiece = None
-                self.currentCell = None
+                self.setCurrent(position)
+        else:
+            self.setCurrent(None)
                     
     def setCurrent(self, position):
         """Stores the selected piece and position to be moved on the next input.
         """
-        self.currentPiece = self.chessGrid[position]
-        self.currentCell = position
+        if position == None:
+            self.currentPiece = None
+            self.currentCell = None
+        else:
+            if isinstance(position, str):
+                self.currentPiece = self.chessGrid[position]
+                self.currentCell = position
+            else:
+                raise TypeError('Position must be a string')
             
     def addPiece(self, position, piece):
         """Adds a piece at the given position. Cell must be empty before adding
         """
-        try:
+        if isinstance(piece, ChessPiece):
             if self.chessGrid[position] == None:
                 self.chessGrid[position] = piece
                 self.gui.drawPiece(position, piece.image)
             else:
                 raise RuntimeError('Cell already occupied')
-        except TypeError:
-            print('Tried adding to non-existent cell')
+        else:
+            raise TypeError('Added piece is not derived from ChessPiece')
+                
             
     def removePiece(self, position):
         """Remove piece from the given position.
         """
-        try:
-            if self.chessGrid[position] != None:
-                self.gui.removePiece(position)
-                self.chessGrid[position] = None
-        except (KeyError, RuntimeError) as e:
-            print('No piece to remove')
-            
-        
+        if self.chessGrid[position] != None:
+            self.gui.removePiece(position)
+            self.chessGrid[position] = None
+        else:
+            raise RuntimeError('No piece to remove')
