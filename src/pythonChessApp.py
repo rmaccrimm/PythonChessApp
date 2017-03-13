@@ -6,8 +6,6 @@ from tkinter import Tk
 from chessApp.chessGui import *
 from chessApp.chessController import *
 from chessApp.chessPieces import *
-
-
         
 if __name__ == "__main__":
     root = Tk()

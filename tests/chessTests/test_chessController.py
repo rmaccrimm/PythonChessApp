@@ -73,7 +73,7 @@ class  ChessController_TestCase(unittest.TestCase):
                           Rook('black'))
        
     def test_addPiece_invalidCell(self):
-        self.assertRaises(KeyError, self.controller.addPiece, 'e9', 
+        self.assertRaises(KeyError, self.controller.addPiece, '~9', 
                           Rook('white'))
     
     def test_getPositions_addingPieces(self):
@@ -89,6 +89,17 @@ class  ChessController_TestCase(unittest.TestCase):
         self.controller.addPiece('g3', Rook('white'))
         self.controller.removePiece('c8')
         self.assertEqual(self.controller.getPositions(), ['a2', 'f6', 'g3'])
+        
+    def test_getPieces_addingPieces(self):
+        self.setUpPieces()
+        pieceDict = {self.pos1:self.p1, self.pos2:self.p2, self.pos3:self.p3}
+        self.assertEqual(self.controller.getPieces(), pieceDict)
+        
+    def test_getPieces_addingAndRemovingPieces(self):
+        self.setUpPieces()
+        self.controller.removePiece(self.pos3)
+        pieceDict = {self.pos1:self.p1, self.pos2:self.p2}
+        self.assertEqual(self.controller.getPieces(), pieceDict)
        
     def test_removePiece_callsGuiRemove(self):
         self.controller.addPiece('a1', Rook('black'))
@@ -126,12 +137,12 @@ class  ChessController_TestCase(unittest.TestCase):
         self.assertTrue(self.controller.currentPiece == None and
                         self.controller.currentCell == None)
         
-    def test_handleClick_sameColorSetsNewCurrent(self):
+    def test_handleClick_sameColorDoesNothing(self):
         self.setUpPieces()
         self.controller.handleClick(self.pos1)
         self.controller.handleClick(self.pos2)
-        self.assertTrue(self.controller.currentPiece == self.p2 and
-                        self.controller.currentCell == self.pos2)
+        self.assertTrue(self.controller.currentPiece == self.p1 and
+                        self.controller.currentCell == self.pos1)
         
     def test_handlClick_samePieceResetsCurrent(self):
         self.setUpPieces()

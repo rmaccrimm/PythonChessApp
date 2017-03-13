@@ -8,8 +8,7 @@ from pkg_resources import resource_filename
 
 
 class ChessPiece(object):
-    """Stores an image and name for each type of chess piece. Later on will 
-    handle move generation to check if moves are valid.
+    """Stores an image and name for each type of chess piece
     """
     _bImage = None
     _wImage = None

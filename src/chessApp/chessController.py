@@ -4,6 +4,7 @@
 
 from chessApp.chessPieces import *
 import itertools
+from chessApp.moveGenerator import getPossible
 
 
 class ChessController(object):
@@ -27,6 +28,12 @@ class ChessController(object):
         positions = [pos for pos in self.chessGrid 
                      if self.chessGrid[pos] != None]
         return positions
+    
+    def getPieces(self):
+        """Returns a dictionary containing all the pieces on the board
+        """
+        pieces = {pos:self.chessGrid[pos] for pos in self.getPositions()}
+        return pieces
     
     def initPieces(self):
         """Places the initial pieces on the board.
@@ -55,23 +62,29 @@ class ChessController(object):
             b) stores a new piece to move if same color as current stored piece.
             c) cancels the move if same piece.
         """
-        print(position)
         if self.currentPiece == None:
             if self.chessGrid[position] != None:
                 self.setCurrent(position)
         elif position != self.currentCell:
             piece = self.chessGrid[position]
+            possible = getPossible(self.getPieces(), self.currentCell)
             if piece == None:
-                self.addPiece(position, self.currentPiece)
-                self.removePiece(self.currentCell)
-                self.setCurrent(None)
+                if position in possible:
+                    self.addPiece(position, self.currentPiece)
+                    self.removePiece(self.currentCell)
+                    self.setCurrent(None)
+                else:
+                    print('Invalid Move')
             elif piece.color != self.currentPiece.color:
-                self.removePiece(position)  
-                self.addPiece(position, self.currentPiece)
-                self.removePiece(self.currentCell)
-                self.setCurrent(None)
-            else:
-                self.setCurrent(position)
+                if position in possible:
+                    self.removePiece(position)  
+                    self.addPiece(position, self.currentPiece)
+                    self.removePiece(self.currentCell)
+                    self.setCurrent(None)
+                else:
+                    print('Invalid move')
+            else: 
+                print('Invalid move')
         else:
             self.setCurrent(None)
                     
