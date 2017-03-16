@@ -95,3 +95,6 @@ def genRookMoves(pieceList, piecePos):
             break
         yDec -= 1
     return possible
+
+def genBishopMoves(pieces, piecePos):
+    pass
