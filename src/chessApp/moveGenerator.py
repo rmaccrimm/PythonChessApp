@@ -20,11 +20,11 @@ def getPossible(pieceList, piecePos):
     elif piece.name == 'knight':
         return allSpaces
     elif piece.name == 'bishop':
-        return allSpaces
+        return genBishopMoves(pieceList, piecePos)
     elif piece.name == 'king':
         return allSpaces
     elif piece.name == 'queen':
-        return allSpaces
+        return genQueenMoves(pieceList,piecePos)
     else:
         raise ValueError('Piece does not have a valid name')
 
@@ -96,5 +96,60 @@ def genRookMoves(pieceList, piecePos):
         yDec -= 1
     return possible
 
-def genBishopMoves(pieces, piecePos):
-    pass
+def genBishopMoves(pieceList, piecePos):
+    possible = []
+    color = pieceList[piecePos].color
+    x, y = getXY(piecePos)
+    dx, dy = x+1, y+1
+    while(dx < 8 and dy < 8):
+        nextPos = getPosString(dx, dy)
+        if nextPos not in pieceList:
+            possible.append(nextPos)
+        elif pieceList[nextPos].color != color:
+            possible.append(nextPos)
+            break
+        else:
+            break
+        dx += 1
+        dy += 1
+    dx, dy = x+1, y-1
+    while(dx < 8 and dy >= 0):
+        nextPos = getPosString(dx, dy)
+        if nextPos not in pieceList:
+            possible.append(nextPos)
+        elif pieceList[nextPos].color != color:
+            possible.append(nextPos)
+            break
+        else:
+            break
+        dx += 1
+        dy -= 1
+    dx, dy = x-1, y-1
+    while(dx >= 0 and dy >= 0):
+        nextPos = getPosString(dx, dy)
+        if nextPos not in pieceList:
+            possible.append(nextPos)
+        elif pieceList[nextPos].color != color:
+            possible.append(nextPos)
+            break
+        else:
+            break
+        dx -= 1
+        dy -= 1
+    dx, dy = x-1, y+1
+    while(dx >= 0 and dy < 8):
+        nextPos = getPosString(dx, dy)
+        if nextPos not in pieceList:
+            possible.append(nextPos)
+        elif pieceList[nextPos].color != color:
+            possible.append(nextPos)
+            break
+        else:
+            break
+        dx -= 1
+        dy += 1
+    return possible
+        
+def genQueenMoves(pieceList, piecePos):
+    return (genRookMoves(pieceList, piecePos)
+            + genBishopMoves(pieceList, piecePos))

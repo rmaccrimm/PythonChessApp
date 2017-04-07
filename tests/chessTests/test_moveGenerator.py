@@ -58,29 +58,52 @@ class  MoveGenerator_TestCase(unittest.TestCase):
         pieces = {pos:Bishop('black')}
         possible = ['f2', 'g1', 'd2', 'c1', 'd4', 'c5', 'b6', 'a7', 'f4', 'g5',
                     'h6']
-        self.assertEqual(genBishopMoves(pieces, pos), possible)
+        self.assertCountEqual(genBishopMoves(pieces, pos), possible)
         
     def test_genBisihopMoves_topEdgeAndCorners(self):
         pos = 'f6'
         pieces = {pos:Bishop('white')}
-        possible = ['g7', 'h8', 'e7', 'd8', 'g5', 'h4', 'e5', 'd4', 'c3', 'b2'
+        possible = ['g7', 'h8', 'e7', 'd8', 'g5', 'h4', 'e5', 'd4', 'c3', 'b2',
                    'a1']
-        self.assertEqual(genBishopMoves(pieces, pos), possible)
+        self.assertCountEqual(genBishopMoves(pieces, pos), possible)
         
     def test_genBishopMoves_oppColorBlocking(self):
         posB, posP = 'e3', 'd4'
-        pieces = {posB:Bishop('white'), posP:Pawn('white')}
-        possible = ['d2', 'c1', 'f2', 'g1', 'f4', 'g5', 'h6']
-        self.assertEqual(genBishopMoves(pieces, posB), possible)
+        pieces = {posB:Bishop('white'), posP:Pawn('black')}
+        possible = ['d2', 'c1', 'f2', 'g1', 'f4', 'g5', 'h6', 'd4']
+        self.assertCountEqual(genBishopMoves(pieces, posB), possible)
         
     def test_genBishopMoves_sameColorBlocking(self):
         posB, posP = 'e7', 'd6'
-        pieces = {posB:Bishop('black'), posP:Pawn('white')}
+        pieces = {posB:Bishop('black'), posP:Pawn('black')}
         possible = ['f8', 'd8', 'f6', 'g5', 'h4']
-        self.assertEqual(genBishopMoves(pieces, posB), possible)
+        self.assertCountEqual(genBishopMoves(pieces, posB), possible)
         
     def test_genRookMoves_noMovesPossible(self):
         posB, posP = 'a8', 'b7'
         pieces = {posB:Bishop('black'), posP:Pawn('black')}
         possible = []
-        self.assertEqual(genBishopMoves(pieces, posB), possible)
+        self.assertCountEqual(genBishopMoves(pieces, posB), possible)
+        
+    def test_genQueenMoves_noBlocking(self):
+        pos = 'd4'
+        pieces = {pos:Queen('white')}
+        possible = ['a4', 'b4', 'c4', 'e4', 'f4', 'g4', 'h4', 'd1', 'd2', 'd3',
+                    'd5', 'd6', 'd7', 'd8', 'e5', 'f6', 'g7', 'h8', 'a1', 'b2',
+                    'c3', 'a7', 'b6', 'c5', 'e3', 'f2', 'g1']
+        self.asserCountEqual(genQueenMoves(pieces, pos), possible)
+        
+    def test_genQueenMoves_oppColorBlockingDiagonally(self):
+        self.fail()
+        
+    def test_genQueenMoves_sameColorBlockingDiagonally(self):
+        self.fail()
+    
+    def test_genQueenMoves_oppColorBlockingStraight(self):
+        self.fail()
+    
+    def test_genQueenMoves_sameColorBlockingStraight(self):
+        self.fail()
+    
+    def test_genQueenMoves_noMovesBlocking(self):
+        self.fail()
