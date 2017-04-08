@@ -10,9 +10,9 @@ from chessApp.chessPieces import *
 if __name__ == "__main__":
     root = Tk()
     root.title('Chess')
-    frame = Frame(root)
-    gui = ChessGui(frame)
+    #frame = Frame(root)
+    gui = ChessGui(root)
     controller = ChessController(gui)
     controller.initPieces()
-    frame.pack()
+
     root.mainloop()

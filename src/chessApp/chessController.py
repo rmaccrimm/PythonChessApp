@@ -112,7 +112,7 @@ class ChessController(object):
             else:
                 raise RuntimeError('Cell already occupied')
         else:
-            raise TypeError('Added piece is not derived from ChessPiece')
+            raise TypeError('Added object is not derived from ChessPiece')
                 
             
     def removePiece(self, position):

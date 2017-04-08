@@ -20,9 +20,16 @@ class ChessGui(object):
         self.imageSize = 50
         self.listeners = []
         self.images = {}
-        colorIter = itertools.cycle(['grey', 'white'])
 
-        for i in range(8):
+        self.frame = Frame(root, bd=5)
+        self.board = Canvas(self.frame, height=self.squareSize*8, 
+                            width=self.squareSize*8, background='gray')
+        self.drawBoard()
+        self.label = Label(text="Text")
+        self.frame.pack(expand=YES)    
+        self.board.pack(expand=YES)
+        self.label.pack()
+        """for i in range(8):
             for j in range(8):
                 key = chr(i+97) + str(j+1)
                 self.board[key] = Canvas(root, width = self.squareSize, 
@@ -31,12 +38,33 @@ class ChessGui(object):
                 self.board[key].bind('<Button-1>', 
                     lambda event, position=key: 
                     self.handleClick(event, position))
-            next(colorIter)
+            next(colorIter)"""
             
+    def drawBoard(self):
+        for i in range(4):
+            for j in range(4):
+                x1 = self.squareSize*2*i
+                y1 = self.squareSize*2*j
+                x2 = x1 + self.squareSize
+                y2 = y1 + self.squareSize
+                self.board.create_rectangle(x1, y1, x2, y2, fill='white')
+                x1 += self.squareSize
+                x2 += self.squareSize
+                self.board.create_rectangle(x1, y1, x2, y2, fill='gray')
+                y1 += self.squareSize
+                y2 += self.squareSize
+                self.board.create_rectangle(x1, y1, x2, y2, fill='white')
+                x1 -= self.squareSize
+                x2 -= self.squareSize
+                self.board.create_rectangle(x1, y1, x2, y2, fill='gray')
+        boardSize = self.squareSize*8
+        self.board.create_line(0, 1, boardSize, 1)
+        self.board.create_line(1, 0, 1, boardSize)
+                
     def cellOccupied(self, position):
         """Check if an image has already been drawn at the given position
         """
-        if self.board[position].find_all():
+        if position in self.images:
             return True
         else:
             return False
@@ -51,8 +79,10 @@ class ChessGui(object):
             scaledImage = ImageTk.PhotoImage(image.resize(
                 (self.imageSize, self.imageSize), Image.ANTIALIAS))
             self.images[position] = scaledImage
-            self.board[position].create_image(self.center, self.center,
-                image=scaledImage)
+            xPos = (ord(position[0]) - 97)*self.squareSize + self.squareSize/2
+            yPos = (int(position[1])-1)*self.squareSize + self.squareSize/2
+            print(str(xPos) + ' '  + str(yPos))
+            self.board.create_image(xPos, yPos,image=scaledImage)
             
     def removePiece(self, position):
         """Remove the piece at the given position.
