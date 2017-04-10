@@ -14,5 +14,5 @@ if __name__ == "__main__":
     gui = ChessGui(root)
     controller = ChessController(gui)
     controller.initPieces()
-
+    gui.pickupPiece('a1')
     root.mainloop()

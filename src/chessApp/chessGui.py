@@ -20,6 +20,7 @@ class ChessGui(object):
         self.imageSize = 50
         self.listeners = []
         self.images = {}
+        self.pieces = {}
 
         self.frame = Frame(root, bd=5)
         self.board = Canvas(self.frame, height=self.squareSize*8, 
@@ -80,16 +81,18 @@ class ChessGui(object):
                 (self.imageSize, self.imageSize), Image.ANTIALIAS))
             self.images[position] = scaledImage
             xPos = (ord(position[0]) - 97)*self.squareSize + self.squareSize/2
-            yPos = (int(position[1])-1)*self.squareSize + self.squareSize/2
-            print(str(xPos) + ' '  + str(yPos))
-            self.board.create_image(xPos, yPos,image=scaledImage)
+            yPos = self.squareSize*8 - (
+                (int(position[1])-1)*self.squareSize + self.squareSize/2)
+            self.pieces[position] = self.board.create_image(
+                xPos, yPos,image=scaledImage)
             
     def removePiece(self, position):
         """Remove the piece at the given position.
         """
         if self.cellOccupied(position):
-            self.board[position].delete('all')
+            self.board.delete(self.pieces[position])
             del self.images[position]
+            del self.pieces[position]
         else:
             raise RuntimeError('No piece to remove')
             
@@ -98,6 +101,17 @@ class ChessGui(object):
         """
         for position in list(self.images):
             self.removePiece(position)
+            
+    def trackMouse(self, event, piece):
+        currPos = self.board.coords(piece)
+        self.board.move(piece, event.x-currPos[0], event.y-currPos[1])
+
+    def pickupPiece(self, position):
+        """Pick up a piece, causing it to follow the mouse
+        """
+        self.board.bind('<Motion>', 
+            lambda event, piece=self.pieces[position]: 
+            self.trackMouse(event, piece))
             
     def handleClick(self, event, position):
         """Pass the name of the cell clicked to all listeners. 

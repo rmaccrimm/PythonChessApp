@@ -28,7 +28,7 @@ class  ChessGui_TestCase(unittest.TestCase):
                           
     def test_drawPieceInvalidCell(self):
         position = 'a9'
-        self.assertRaises(KeyError, self.gui.drawPiece, position, self.image)
+        self.assertRaises(RuntimeError, self.gui.drawPiece, position, self.image)
         
     def test_drawPieceCorrectNumberOfImages(self):
         self.gui.drawPiece('a1', self.image)
@@ -40,6 +40,7 @@ class  ChessGui_TestCase(unittest.TestCase):
         self.gui.drawPiece('a2', self.image)
         self.gui.clearAll()
         self.assertEqual(len(self.gui.images), 0)
+        self.assertEqual(len(self.gui.pieces), 0)
         
     def test_removeNoPiece(self):
         self.assertRaises(RuntimeError, self.gui.removePiece, 'a1')
@@ -57,8 +58,9 @@ class  ChessGui_TestCase(unittest.TestCase):
         self.gui.drawPiece('g8', self.image)
         self.assertTrue(self.gui.cellOccupied('g8'))
     
+    
     def test_cellOccupiedInvalidCell(self):
-        self.assertRaises(KeyError, self.gui.cellOccupied, 'f0')
+        self.assertRaises(RuntimeError, self.gui.cellOccupied, 'f0')
     
     def test_cellOccupiedAfterRemove(self):
         self.gui.drawPiece('e6', self.image)
