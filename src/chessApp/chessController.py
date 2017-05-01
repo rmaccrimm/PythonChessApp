@@ -62,7 +62,8 @@ class ChessController(object):
             b) stores a new piece to move if same color as current stored piece.
             c) cancels the move if same piece.
         """
-        #print(position)
+        
+        """#print(position)
         if self.currentPiece == None:
             if self.chessGrid[position] != None:
                 self.setCurrent(position)
@@ -87,7 +88,9 @@ class ChessController(object):
             else: 
                 print('Invalid move')
         else:
-            self.setCurrent(None)
+            self.setCurrent(None)"""
+            
+        self.gui.setLabelText(str(position.x) + ' ' + str(position.y))
                     
     def setCurrent(self, position):
         """Stores the selected piece and position to be moved on the next input.

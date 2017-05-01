@@ -3,7 +3,6 @@
 # and open the template in the editor.
 
 from tkinter import *
-import itertools
 from PIL import Image, ImageTk
 import inspect
 
@@ -13,7 +12,6 @@ class ChessGui(object):
     """
     
     def __init__(self, root, squareSize=60):
-        self.board = {}
         self.root = root
         self.squareSize = squareSize
         self.center = self.squareSize/2
@@ -25,21 +23,12 @@ class ChessGui(object):
         self.frame = Frame(root, bd=5)
         self.board = Canvas(self.frame, height=self.squareSize*8, 
                             width=self.squareSize*8, background='gray')
+        self.board.bind('<Button-1>', self.handleClick)
         self.drawBoard()
         self.label = Label(text="Text")
         self.frame.pack(expand=YES)    
         self.board.pack(expand=YES)
         self.label.pack()
-        """for i in range(8):
-            for j in range(8):
-                key = chr(i+97) + str(j+1)
-                self.board[key] = Canvas(root, width = self.squareSize, 
-                    height=self.squareSize, background=next(colorIter))
-                self.board[key].grid(row=8-j, column=i)
-                self.board[key].bind('<Button-1>', 
-                    lambda event, position=key: 
-                    self.handleClick(event, position))
-            next(colorIter)"""
             
     def drawBoard(self):
         for i in range(4):
@@ -113,11 +102,16 @@ class ChessGui(object):
             lambda event, piece=self.pieces[position]: 
             self.trackMouse(event, piece))
             
-    def handleClick(self, event, position):
-        """Pass the name of the cell clicked to all listeners. 
+    def handleClick(self, event):
+        """Pass name of cell clicked to all listeners. 
         """
         for listener in self.listeners:
-            listener.handleClick(position)
+            listener.handleClick(event)
+            
+    def setLabelText(self, text):
+        """Set the text on the label below the board
+        """
+        self.label['text'] = text
     
     def addListener(self, listener):
         """Register a listener to recieve input when a cell is clicked. 
