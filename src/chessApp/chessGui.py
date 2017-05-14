@@ -11,11 +11,14 @@ class ChessGui(object):
     """Displays chess board and pieces.
     """
     
-    def __init__(self, root, squareSize=60):
+    def __init__(self, root, squareSize=60, imageSize=50):
+        """ Images simply keeps a reference to each image drawn. Positions are
+        the actual canvas objects.
+        """
         self.root = root
         self.squareSize = squareSize
         self.center = self.squareSize/2
-        self.imageSize = 50
+        self.imageSize = imageSize
         self.listeners = []
         self.images = {}
         self.pieces = {}
@@ -107,8 +110,9 @@ class ChessGui(object):
     def handleClick(self, event):
         """Pass name of cell clicked to all listeners. 
         """
+        print(str(event.x) + ' ' + str(event.y))
         for listener in self.listeners:
-            listener.handleClick(self.pixelsToGrid(event.x, event.y))
+            listener.handleClick(self.coordsToGrid(event.x, event.y))
             
     def setLabelText(self, text):
         """Set the text on the label below the board
@@ -129,9 +133,9 @@ class ChessGui(object):
         else:
             raise RuntimeError('Listener has no method called notify')
         
-    def pixelsToGrid(self, x, y):
+    def coordsToGrid(self, x, y):
         """The board coordinates run from 1 to 8*squareSize, plus 1 additional
-        pixel on each edge. 
+        point on each edge. 
         """
         x, y = [z for z in map(
             lambda num: max(min(8*self.squareSize - 1, num - 1), 0), [x, y])]

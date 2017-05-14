@@ -85,8 +85,6 @@ class  ChessGui_TestCase(unittest.TestCase):
         listener = tempClass()
         self.assertRaises(RuntimeError, self.gui.addListener, listener)
         
-    #TODO test pixelsToGrid
-        
 if __name__ == '__main__':
     unittest.main()
         
