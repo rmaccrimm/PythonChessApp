@@ -22,6 +22,15 @@ class MockGui(object):
         
     def addListener(self, listener):
         pass
+    
+    def setLabelText(self, text):
+        pass
+    
+    def stopTracking(self):
+        pass
+    
+    def pickUpPiece(self, position):
+        pass
         
 class  ChessController_TestCase(unittest.TestCase):
     """Test cases for the chess controller. All moves checked are valid moves
@@ -164,3 +173,6 @@ class  ChessController_TestCase(unittest.TestCase):
         self.controller.handleClick(self.pos3)
         self.assertTrue(self.controller.currentPiece == None and
                         self.controller.currentCell == None)
+                        
+if __name__ == '__main__':
+    unittest.main()

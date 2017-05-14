@@ -26,9 +26,9 @@ class  ChessGui_TestCase(unittest.TestCase):
         self.assertRaises(RuntimeError, self.gui.drawPiece, position, 
                           self.image)
                           
-    def test_drawPieceInvalidCell(self):
-        position = 'a9'
-        self.assertRaises(RuntimeError, self.gui.drawPiece, position, self.image)
+    #def test_drawPieceInvalidCell(self):
+    #    position = 'a9'
+    #    self.assertRaises(RuntimeError, self.gui.drawPiece, position, self.image)
         
     def test_drawPieceCorrectNumberOfImages(self):
         self.gui.drawPiece('a1', self.image)
@@ -58,9 +58,9 @@ class  ChessGui_TestCase(unittest.TestCase):
         self.gui.drawPiece('g8', self.image)
         self.assertTrue(self.gui.cellOccupied('g8'))
     
-    
-    def test_cellOccupiedInvalidCell(self):
-        self.assertRaises(RuntimeError, self.gui.cellOccupied, 'f0')
+    #GUI won't bother checking if cell is valid, just check if it has that key
+    #def test_cellOccupiedInvalidCell(self):
+    #    self.assertRaises(RuntimeError, self.gui.cellOccupied, 'f0')
     
     def test_cellOccupiedAfterRemove(self):
         self.gui.drawPiece('e6', self.image)
@@ -85,15 +85,8 @@ class  ChessGui_TestCase(unittest.TestCase):
         listener = tempClass()
         self.assertRaises(RuntimeError, self.gui.addListener, listener)
         
-    def test_handleClick(self):
-        class tempClass(object):
-            def __init__(self):
-                self.notified = False
-            def handleClick(self, arg):
-                self.notified = True
-        listener = tempClass()
-        self.gui.addListener(listener)
-        self.gui.handleClick('event', 'arg')
-        self.assertTrue(listener.notified)
+    #TODO test pixelsToGrid
         
+if __name__ == '__main__':
+    unittest.main()
         

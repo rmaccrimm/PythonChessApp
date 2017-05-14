@@ -19,7 +19,6 @@ class ChessGui(object):
         self.listeners = []
         self.images = {}
         self.pieces = {}
-
         self.frame = Frame(root, bd=5)
         self.board = Canvas(self.frame, height=self.squareSize*8, 
                             width=self.squareSize*8, background='gray')
@@ -94,19 +93,22 @@ class ChessGui(object):
     def trackMouse(self, event, piece):
         currPos = self.board.coords(piece)
         self.board.move(piece, event.x-currPos[0], event.y-currPos[1])
+        
+    def stopTracking(self):
+        self.board.unbind('<Motion>')
 
-    def pickupPiece(self, position):
+    def pickUpPiece(self, position):
         """Pick up a piece, causing it to follow the mouse
         """
         self.board.bind('<Motion>', 
             lambda event, piece=self.pieces[position]: 
-            self.trackMouse(event, piece))
+            self.trackMouse(event, piece))    
             
     def handleClick(self, event):
         """Pass name of cell clicked to all listeners. 
         """
         for listener in self.listeners:
-            listener.handleClick(event)
+            listener.handleClick(self.pixelsToGrid(event.x, event.y))
             
     def setLabelText(self, text):
         """Set the text on the label below the board
@@ -126,4 +128,13 @@ class ChessGui(object):
                 self.listeners.append(listener)
         else:
             raise RuntimeError('Listener has no method called notify')
-    
+        
+    def pixelsToGrid(self, x, y):
+        """The board coordinates run from 1 to 8*squareSize, plus 1 additional
+        pixel on each edge. 
+        """
+        x, y = [z for z in map(
+            lambda num: max(min(8*self.squareSize - 1, num - 1), 0), [x, y])]
+        xChr = chr(x//self.squareSize + 97) 
+        yChr = str((8*self.squareSize - y)//60 + 1)
+        return xChr + yChr
